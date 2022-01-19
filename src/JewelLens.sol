@@ -20,8 +20,9 @@ contract JewelLens {
         return (JEWEL.totalBalanceOf(address(otcSell)), otcSell.tokenWanted(), otcSell.amountWanted());
     }
 
-    function getAllActiveOfferInfo(IOfferFactory factory) public view returns (uint[] memory jewelBalances, address[] memory tokenWanted, uint[] memory amountWanted) {
+    function getAllActiveOfferInfo(IOfferFactory factory) public view returns (address[] memory offerAddresses, uint[] memory jewelBalances, address[] memory tokenWanted, uint[] memory amountWanted) {
         uint offersLength = factory.offers().length;
+        offerAddresses = new address[](offersLength);
         jewelBalances = new uint[](offersLength);
         tokenWanted = new address[](offersLength);
         amountWanted = new uint[](offersLength);
@@ -30,12 +31,13 @@ contract JewelLens {
             uint bal = JEWEL.totalBalanceOf(address(factory.offers()[i]));
             if (bal > 0) {
                 jewelBalances[count] = bal;
+                offerAddresses[count] = address(factory.offers()[i]);
+                tokenWanted[count] = factory.offers()[i].tokenWanted();
+                amountWanted[count] = factory.offers()[i].amountWanted();
+                count++;
             }
-            tokenWanted[count] = factory.offers()[i].tokenWanted();
-            amountWanted[count] = factory.offers()[i].amountWanted();
-            count++;
         }
-        return (jewelBalances, tokenWanted, amountWanted);
+        return (offerAddresses, jewelBalances, tokenWanted, amountWanted);
     }
 
 }
