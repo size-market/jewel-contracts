@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.11;
 
-import "./LockedJewelOffer.sol";
-import "./OfferFactory.sol";
+interface IJewelToken {
+    function totalBalanceOf(address _holder) external view returns (uint256);
+    function transferAll(address _to) external;
+}
 
 interface ILockedJewelOffer{
     function amountWanted() external view returns (uint256);
@@ -11,6 +13,7 @@ interface ILockedJewelOffer{
 
 interface IOfferFactory {
     function offers() external view returns (ILockedJewelOffer[] memory);
+    function getActiveOffers() external view returns (ILockedJewelOffer[] memory);
 }
 
 contract JewelLens {
@@ -21,23 +24,23 @@ contract JewelLens {
     }
 
     function getAllActiveOfferInfo(IOfferFactory factory) public view returns (address[] memory offerAddresses, uint[] memory jewelBalances, address[] memory tokenWanted, uint[] memory amountWanted) {
-        uint offersLength = factory.offers().length;
+        ILockedJewelOffer[] memory activeOffers = factory.getActiveOffers();
+        uint offersLength = activeOffers.length;
         offerAddresses = new address[](offersLength);
         jewelBalances = new uint[](offersLength);
         tokenWanted = new address[](offersLength);
         amountWanted = new uint[](offersLength);
         uint count;
-        for (uint i; i < offersLength; i++) {
-            uint bal = JEWEL.totalBalanceOf(address(factory.offers()[i]));
+        for (uint i; i < activeOffers.length; i++) {
+            uint bal = JEWEL.totalBalanceOf(address(activeOffers[i]));
             if (bal > 0) {
                 jewelBalances[count] = bal;
-                offerAddresses[count] = address(factory.offers()[i]);
-                tokenWanted[count] = factory.offers()[i].tokenWanted();
-                amountWanted[count] = factory.offers()[i].amountWanted();
+                offerAddresses[count] = address(activeOffers[i]);
+                tokenWanted[count] = activeOffers[i].tokenWanted();
+                amountWanted[count] = activeOffers[i].amountWanted();
                 count++;
             }
         }
-        return (offerAddresses, jewelBalances, tokenWanted, amountWanted);
     }
 
 }
