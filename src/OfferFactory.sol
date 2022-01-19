@@ -33,7 +33,7 @@ contract OfferFactory is Ownable {
         uint256 otherBidsCount;
         for (uint256 i; i < offers.length; i++) {
             LockedJewelOffer offer = LockedJewelOffer(offers[i]);
-            if (offer.hasJewel()) {
+            if (offer.hasJewel() && !offer.hasEnded()) {
                 if (offer.seller() == msg.sender) {
                     myBids[myBidsCount] = offers[i];
                     myBidsCount++;
@@ -49,11 +49,10 @@ contract OfferFactory is Ownable {
 
     function getActiveOffers() public view returns (LockedJewelOffer[] memory) {
         LockedJewelOffer[] memory activeOffers = new LockedJewelOffer[](offers.length);
-
         uint256 count;
         for (uint256 i; i < offers.length; i++) {
             LockedJewelOffer offer = LockedJewelOffer(offers[i]);
-            if (offer.hasJewel()) {
+            if (offer.hasJewel() && !offer.hasEnded()) {
                 activeOffers[count] = offer;
                 count++;
             }
@@ -67,7 +66,7 @@ contract OfferFactory is Ownable {
 
         uint256 count;
         for (uint256 i = start; i < end; i++) {
-            if (offers[i].hasJewel()) {
+            if (offers[i].hasJewel() && !offers[i].hasEnded()) {
                 activeOffers[count] = offers[i];
                 count++;
             }

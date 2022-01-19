@@ -22,6 +22,7 @@ contract LockedJewelOffer {
     address public tokenWanted;
     uint256 public amountWanted;
     uint256 public fee; // in bps
+    bool public hasEnded;
 
     IJewelToken JEWEL = IJewelToken(0x72Cb10C6bfA5624dD07Ef608027E366bd690048F);
 
@@ -54,6 +55,7 @@ contract LockedJewelOffer {
 
     function fill() public {
         require(hasJewel(), "no JEWEL balance");
+        require(!hasEnded, "sell has been previously cancelled");
         uint256 balance = JEWEL.totalBalanceOf(address(this));
         // cap txFee at 25k
         uint256 txFee = mulDiv(amountWanted, fee, 10_000);
@@ -66,6 +68,7 @@ contract LockedJewelOffer {
         // exchange assets
         safeTransferFrom(tokenWanted, msg.sender, seller, amountAfterFee);
         JEWEL.transferAll(msg.sender);
+        hasEnded = true;
         emit OfferFilled(msg.sender, balance, tokenWanted, amountWanted);
     }
 
@@ -74,6 +77,7 @@ contract LockedJewelOffer {
         require(msg.sender == seller);
         uint256 balance = JEWEL.totalBalanceOf(address(this));
         JEWEL.transferAll(seller);
+        hasEnded = true;
         emit OfferCanceled(balance);
     }
 
