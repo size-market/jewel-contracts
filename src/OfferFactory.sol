@@ -1,18 +1,15 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.11;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./LockedJewelOffer.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
+import {LockedJewelOffer} from "./LockedJewelOffer.sol";
 
 contract OfferFactory is Ownable {
     uint256 public fee = 250;
     LockedJewelOffer[] public offers;
 
     event OfferCreated(address offerAddress, address tokenWanted, uint256 amountWanted);
-
-    constructor() {
-        fee = 250; // in bps
-    }
 
     function setFee(uint256 _fee) public onlyOwner {
         fee = _fee;
@@ -26,20 +23,21 @@ contract OfferFactory is Ownable {
     }
 
     function getActiveOffersByOwner() public view returns (LockedJewelOffer[] memory, LockedJewelOffer[] memory) {
-        LockedJewelOffer[] memory myBids = new LockedJewelOffer[](offers.length);
-        LockedJewelOffer[] memory otherBids = new LockedJewelOffer[](offers.length);
+        uint256 offersLength = offers.length;
+
+        LockedJewelOffer[] memory myBids = new LockedJewelOffer[](offersLength);
+        LockedJewelOffer[] memory otherBids = new LockedJewelOffer[](offersLength);
 
         uint256 myBidsCount;
         uint256 otherBidsCount;
-        for (uint256 i; i < offers.length; i++) {
-            LockedJewelOffer offer = LockedJewelOffer(offers[i]);
+
+        for (uint256 i; i < offersLength; i++) {
+            LockedJewelOffer offer = offers[i];
             if (offer.hasJewel()) {
                 if (offer.seller() == msg.sender) {
-                    myBids[myBidsCount] = offers[i];
-                    myBidsCount++;
+                    myBids[myBidsCount++] = offer;
                 } else {
-                    otherBids[otherBidsCount] = offers[i];
-                    otherBidsCount++;
+                    otherBids[otherBidsCount++] = offer;
                 }
             }
         }
@@ -48,14 +46,16 @@ contract OfferFactory is Ownable {
     }
 
     function getActiveOffers() public view returns (LockedJewelOffer[] memory) {
-        LockedJewelOffer[] memory activeOffers = new LockedJewelOffer[](offers.length);
+        uint256 offersLength = offers.length;
+
+        LockedJewelOffer[] memory activeOffers = new LockedJewelOffer[](offersLength);
 
         uint256 count;
-        for (uint256 i; i < offers.length; i++) {
-            LockedJewelOffer offer = LockedJewelOffer(offers[i]);
+
+        for (uint256 i; i < offersLength; i++) {
+            LockedJewelOffer offer = offers[i];
             if (offer.hasJewel()) {
-                activeOffers[count] = offer;
-                count++;
+                activeOffers[count++] = offer;
             }
         }
 
@@ -66,10 +66,10 @@ contract OfferFactory is Ownable {
         LockedJewelOffer[] memory activeOffers = new LockedJewelOffer[](end - start);
 
         uint256 count;
+
         for (uint256 i = start; i < end; i++) {
             if (offers[i].hasJewel()) {
-                activeOffers[count] = offers[i];
-                count++;
+                activeOffers[count++] = offers[i];
             }
         }
 

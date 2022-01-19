@@ -8,7 +8,6 @@ interface IERC20 {
 
 interface IJewelToken {
     function totalBalanceOf(address _holder) external view returns (uint256);
-
     function transferAll(address _to) external;
 }
 
@@ -17,11 +16,11 @@ interface IOwnable {
 }
 
 contract LockedJewelOffer {
-    address public factory;
-    address public seller;
-    address public tokenWanted;
-    uint256 public amountWanted;
-    uint256 public fee; // in bps
+    address immutable public factory;
+    address immutable public seller;
+    address immutable public tokenWanted;
+    uint256 immutable public amountWanted;
+    uint256 immutable public fee; // in bps
 
     IJewelToken JEWEL = IJewelToken(0x72Cb10C6bfA5624dD07Ef608027E366bd690048F);
 
