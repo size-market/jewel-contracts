@@ -6,7 +6,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {LockedJewelOffer} from "./LockedJewelOffer.sol";
 
 contract OfferFactory is Ownable {
-    uint256 public fee = 250;
+    uint256 public fee = 250; // in bps
     LockedJewelOffer[] public offers;
 
     event OfferCreated(address offerAddress, address tokenWanted, uint256 amountWanted);
@@ -31,13 +31,13 @@ contract OfferFactory is Ownable {
         uint256 myBidsCount;
         uint256 otherBidsCount;
 
-        for (uint256 i; i < offersLength; i++) {
-            LockedJewelOffer offer = offers[i];
-            if (offer.hasJewel()) {
+        for (uint256 i; i < offers.length; i++) {
+            LockedJewelOffer offer = LockedJewelOffer(offers[i]);
+            if (offer.hasJewel() && !offer.hasEnded()) {
                 if (offer.seller() == msg.sender) {
-                    myBids[myBidsCount++] = offer;
+                    myBids[myBidsCount++] = offers[i];
                 } else {
-                    otherBids[otherBidsCount++] = offer;
+                    otherBids[otherBidsCount++] = offers[i];
                 }
             }
         }
@@ -46,15 +46,12 @@ contract OfferFactory is Ownable {
     }
 
     function getActiveOffers() public view returns (LockedJewelOffer[] memory) {
-        uint256 offersLength = offers.length;
 
-        LockedJewelOffer[] memory activeOffers = new LockedJewelOffer[](offersLength);
-
+        LockedJewelOffer[] memory activeOffers = new LockedJewelOffer[](offers.length);
         uint256 count;
-
-        for (uint256 i; i < offersLength; i++) {
-            LockedJewelOffer offer = offers[i];
-            if (offer.hasJewel()) {
+        for (uint256 i; i < offers.length; i++) {
+            LockedJewelOffer offer = LockedJewelOffer(offers[i]);
+            if (offer.hasJewel() && !offer.hasEnded()) {
                 activeOffers[count++] = offer;
             }
         }
@@ -68,7 +65,8 @@ contract OfferFactory is Ownable {
         uint256 count;
 
         for (uint256 i = start; i < end; i++) {
-            if (offers[i].hasJewel()) {
+
+            if (offers[i].hasJewel() && !offers[i].hasEnded()) {
                 activeOffers[count++] = offers[i];
             }
         }

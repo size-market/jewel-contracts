@@ -18,6 +18,7 @@ interface IERC20 {
 
 interface IJewelToken is IERC20 {
     function totalBalanceOf(address _holder) external view returns (uint256);
+
     function transferAll(address _to) external;
     function lockOf(address _holder) external returns(uint);
 }
