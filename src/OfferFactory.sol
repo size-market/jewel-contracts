@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.11;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./LockedJewelOffer.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {LockedJewelOffer} from "./LockedJewelOffer.sol";
 
 contract OfferFactory is Ownable {
-    uint256 public fee = 250;
+    uint256 public fee = 250; // in bps
     LockedJewelOffer[] public offers;
 
     event OfferCreated(address offerAddress, address tokenWanted, uint256 amountWanted);
-
-    constructor() {
-        fee = 250; // in bps
-    }
 
     function setFee(uint256 _fee) public onlyOwner {
         fee = _fee;
@@ -35,11 +31,9 @@ contract OfferFactory is Ownable {
             LockedJewelOffer offer = LockedJewelOffer(offers[i]);
             if (offer.hasJewel() && !offer.hasEnded()) {
                 if (offer.seller() == msg.sender) {
-                    myBids[myBidsCount] = offers[i];
-                    myBidsCount++;
+                    myBids[myBidsCount++] = offers[i];
                 } else {
-                    otherBids[otherBidsCount] = offers[i];
-                    otherBidsCount++;
+                    otherBids[otherBidsCount++] = offers[i];
                 }
             }
         }
@@ -53,8 +47,7 @@ contract OfferFactory is Ownable {
         for (uint256 i; i < offers.length; i++) {
             LockedJewelOffer offer = LockedJewelOffer(offers[i]);
             if (offer.hasJewel() && !offer.hasEnded()) {
-                activeOffers[count] = offer;
-                count++;
+                activeOffers[count++] = offer;
             }
         }
 
@@ -67,8 +60,7 @@ contract OfferFactory is Ownable {
         uint256 count;
         for (uint256 i = start; i < end; i++) {
             if (offers[i].hasJewel() && !offers[i].hasEnded()) {
-                activeOffers[count] = offers[i];
-                count++;
+                activeOffers[count++] = offers[i];
             }
         }
 

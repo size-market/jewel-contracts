@@ -7,6 +7,7 @@ import {LockedJewelOffer} from "../LockedJewelOffer.sol";
 
 interface IJewelToken {
     function totalBalanceOf(address _holder) external view returns (uint256);
+
     function transferAll(address _to) external;
 }
 

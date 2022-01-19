@@ -1,33 +1,20 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.11;
 
-interface IERC20 {
-    function balanceOf(address account) external view returns (uint256);
-    function decimals() external view returns (uint8);
-}
-
-interface IJewelToken {
-    function totalBalanceOf(address _holder) external view returns (uint256);
-
-    function transferAll(address _to) external;
-}
-
-interface IOwnable {
-    function owner() external view returns (address);
-}
+import {IERC20, IJewelToken, IOwnable} from "./interfaces/Interfaces.sol";
 
 contract LockedJewelOffer {
-    address public factory;
-    address public seller;
-    address public tokenWanted;
-    uint256 public amountWanted;
-    uint256 public fee; // in bps
-    bool public hasEnded;
+    address public immutable factory;
+    address public immutable seller;
+    address public immutable tokenWanted;
+    uint256 public immutable amountWanted;
+    uint256 public immutable fee; // in bps
+    bool public hasEnded = false;
 
     IJewelToken JEWEL = IJewelToken(0x72Cb10C6bfA5624dD07Ef608027E366bd690048F);
 
     event OfferFilled(address buyer, uint256 jewelAmount, address token, uint256 tokenAmount);
-    event OfferCanceled(uint256 jewelAmount);
+    event OfferCanceled(address seller, uint256 jewelAmount);
 
     constructor(
         address _seller,
@@ -57,9 +44,10 @@ contract LockedJewelOffer {
         require(hasJewel(), "no JEWEL balance");
         require(!hasEnded, "sell has been previously cancelled");
         uint256 balance = JEWEL.totalBalanceOf(address(this));
-        // cap txFee at 25k
         uint256 txFee = mulDiv(amountWanted, fee, 10_000);
-        uint256 maxFee = 25_000 * 10 ** IERC20(tokenWanted).decimals();
+
+        // cap fee at 25k
+        uint256 maxFee = 25_000 * 10**IERC20(tokenWanted).decimals();
         txFee = txFee > maxFee ? maxFee : txFee;
 
         uint256 amountAfterFee = amountWanted - txFee;
@@ -78,7 +66,7 @@ contract LockedJewelOffer {
         uint256 balance = JEWEL.totalBalanceOf(address(this));
         JEWEL.transferAll(seller);
         hasEnded = true;
-        emit OfferCanceled(balance);
+        emit OfferCanceled(seller, balance);
     }
 
     function hasJewel() public view returns (bool) {
