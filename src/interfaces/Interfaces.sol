@@ -2,15 +2,21 @@
 pragma solidity ^0.8.11;
 
 interface IERC20 {
-    function balanceOf(address account) external view returns (uint256);
+    function balanceOf(address _holder) external view returns (uint256);
+
+    function approve(address spender, uint256 amount) external returns (bool);
+
+    function transferFrom(address from, address to, uint256 amount) external returns (bool);
 
     function decimals() external view returns (uint8);
 }
 
 interface IJewelToken {
     function totalBalanceOf(address _holder) external view returns (uint256);
-
+    
     function transferAll(address _to) external;
+
+    function lockOf(address _holder) external view returns(uint);
 }
 
 interface ILockedJewelOffer {
