@@ -28,17 +28,17 @@ contract LockedJewelOfferTest is DSTest {
         offerUser = new OfferUser();
 
         //Give us 100k locked jewel to work with
-        VM.store(address(JEWEL), keccak256(abi.encode(address(this), 15)), bytes32(uint(100000 * 1e18)));
-    
+        VM.store(address(JEWEL), keccak256(abi.encode(address(this), 15)), bytes32(uint256(100000 * 1e18)));
+
         //Fund the offer user with 1m usdc
-        VM.store(address(USDC), keccak256(abi.encode(address(offerUser), 0)), bytes32(uint(1000000 * 1e6)));
+        VM.store(address(USDC), keccak256(abi.encode(address(offerUser), 0)), bytes32(uint256(1000000 * 1e6)));
     }
 
     function testFailFillNoApproval() public {
         LockedJewelOffer offer = factory.createOffer(USDC, 5 * 1e6);
         // fund the contract
         JEWEL.transferAll(address(offer));
-        
+
         offerUser.fillOffer(offer);
     }
 
@@ -58,8 +58,8 @@ contract LockedJewelOfferTest is DSTest {
         //approve USDC spending
         offerUser.approve(USDC, address(offer));
 
-        uint prevBal = JEWEL.totalBalanceOf(address(offer));
-        
+        uint256 prevBal = JEWEL.totalBalanceOf(address(offer));
+
         offerUser.fillOffer(offer);
 
         uint256 txFee = (5 * 1e6 * offer.fee()) / 10_000;
@@ -95,7 +95,7 @@ contract LockedJewelOfferTest is DSTest {
     function testCancel() public {
         LockedJewelOffer offer = factory.createOffer(USDC, 5 * 1e6);
 
-        uint preBal = JEWEL.totalBalanceOf(address(this));
+        uint256 preBal = JEWEL.totalBalanceOf(address(this));
         //Transfer all of our locked Jewel
         JEWEL.transferAll(address(offer));
         //sanity check

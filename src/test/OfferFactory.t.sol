@@ -22,7 +22,7 @@ contract OfferFactoryTest is DSTest {
 
     function testSetFeeDoesntPropagate() public {
         LockedJewelOffer offer = factory.createOffer(USDC, 1000);
-        uint oldFee = offer.fee();
+        uint256 oldFee = offer.fee();
 
         factory.setFee(oldFee + 100);
 

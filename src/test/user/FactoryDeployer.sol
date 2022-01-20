@@ -5,14 +5,13 @@ import {OfferFactory} from "../../OfferFactory.sol";
 import {LockedJewelOffer} from "../../LockedJewelOffer.sol";
 
 contract FactoryDeployer {
-
     OfferFactory public factory;
 
     constructor() {
         factory = new OfferFactory();
     }
 
-    function setFee(uint f) public {
+    function setFee(uint256 f) public {
         factory.setFee(f);
     }
 
