@@ -8,6 +8,7 @@ import {LockedJewelOffer} from "../LockedJewelOffer.sol";
 
 contract OfferFactoryTest is DSTest {
     OfferFactory factory;
+
     address public USDC = 0x985458E523dB3d53125813eD68c274899e9DfAb4;
 
     function setUp() public {
@@ -22,10 +23,9 @@ contract OfferFactoryTest is DSTest {
 
     function testSetFeeDoesntPropagate() public {
         LockedJewelOffer offer = factory.createOffer(USDC, 1000);
+
         uint256 oldFee = offer.fee();
-
         factory.setFee(oldFee + 100);
-
         assertEq(oldFee, offer.fee());
         assertTrue(oldFee != factory.fee());
     }

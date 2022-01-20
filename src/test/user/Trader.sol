@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.11;
 
-import {LockedJewelOffer} from "../../LockedJewelOffer.sol";
 import {IERC20} from "../../interfaces/Interfaces.sol";
+import {LockedJewelOffer} from "../../LockedJewelOffer.sol";
 
-contract OfferUser {
+contract Trader {
     function fillOffer(LockedJewelOffer offer) public {
         offer.fill();
     }

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.11;
 
-import {OfferFactory} from "../../OfferFactory.sol";
 import {LockedJewelOffer} from "../../LockedJewelOffer.sol";
+import {OfferFactory} from "../../OfferFactory.sol";
 
 contract FactoryDeployer {
     OfferFactory public factory;
