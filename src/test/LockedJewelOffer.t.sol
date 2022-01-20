@@ -5,22 +5,11 @@ import {DSTest} from "@ds-test/test.sol";
 
 import {OfferFactory} from "../OfferFactory.sol";
 import {LockedJewelOffer} from "../LockedJewelOffer.sol";
+import {IERC20, IJewelToken} from "../interfaces/Interfaces.sol";
 
 import {OfferUser} from "./user/OfferUser.sol";
 import {FactoryDeployer} from "./user/FactoryDeployer.sol";
 import {Vm} from "./util/Vm.sol";
-
-interface IERC20 {
-    function balanceOf(address _holder) external view returns (uint256);
-    function approve(address spender, uint256 amount) external returns (bool);
-    function transferFrom(address from, address to, uint256 amount) external returns (bool);
-}
-
-interface IJewelToken is IERC20 {
-    function totalBalanceOf(address _holder) external view returns (uint256);
-    function transferAll(address _to) external;
-    function lockOf(address _holder) external returns(uint);
-}
 
 contract LockedJewelOfferTest is DSTest {
     OfferFactory factory;

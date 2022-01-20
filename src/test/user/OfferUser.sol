@@ -2,11 +2,7 @@
 pragma solidity ^0.8.11;
 
 import {LockedJewelOffer} from "../../LockedJewelOffer.sol";
-
-interface IERC20 {
-    function approve(address spender, uint256 amount) external returns (bool);
-}
-
+import {IERC20} from "../../interfaces/Interfaces.sol";
 
 contract OfferUser {
 
