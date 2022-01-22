@@ -36,6 +36,22 @@ contract JewelLens {
         return (JEWEL.totalBalanceOf(address(offer)), offer.tokenWanted(), offer.amountWanted());
     }
 
+    function getActiveOffersPruned(IOfferFactory factory) public view returns (ILockedJewelOffer[] memory) {
+        ILockedJewelOffer[] memory activeOffers = factory.getActiveOffers();
+        // determine size of memory array
+        uint count;
+        for (uint i; i < activeOffers.length; i++) {
+            if (address(activeOffers[i]) != address(0)) {
+                count++;
+            }
+        }
+        ILockedJewelOffer[] memory pruned = new ILockedJewelOffer[](count);
+        for (uint j; j < count; j++) {
+            pruned[j] = activeOffers[j];
+        }
+        return pruned;
+    }
+
     function getAllActiveOfferInfo(IOfferFactory factory)
         public
         view
