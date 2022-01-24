@@ -12,7 +12,6 @@ contract JewelLens {
     address public constant BUSD = 0xE176EBE47d621b984a73036B9DA5d834411ef734;
 
     IJewelToken JEWEL = IJewelToken(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
-
     function getVolume(IOfferFactory factory) public view returns (uint256 sum) {
         address[5] memory stables = [USDC, USDT, DAI, UST, BUSD];
         address factoryOwner = IOwnable(address(factory)).owner();
