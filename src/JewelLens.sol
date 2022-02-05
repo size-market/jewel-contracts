@@ -62,21 +62,17 @@ contract JewelLens {
             uint256[] memory amountWanted
         )
     {
-        ILockedJewelOffer[] memory activeOffers = factory.getActiveOffers();
+        ILockedJewelOffer[] memory activeOffers = getActiveOffersPruned(factory);
         uint256 offersLength = activeOffers.length;
         offerAddresses = new address[](offersLength);
         jewelBalances = new uint256[](offersLength);
         tokenWanted = new address[](offersLength);
         amountWanted = new uint256[](offersLength);
-        uint256 count;
         for (uint256 i; i < activeOffers.length; i++) {
-            uint256 bal = JEWEL.totalBalanceOf(address(activeOffers[i]));
-            if (bal > 0) {
-                jewelBalances[count] = bal;
-                offerAddresses[count] = address(activeOffers[i]);
-                tokenWanted[count] = activeOffers[i].tokenWanted();
-                amountWanted[count] = activeOffers[i].amountWanted();
-                count++;
+            jewelBalances[i] = JEWEL.totalBalanceOf(address(activeOffers[i]));
+            offerAddresses[i] = address(activeOffers[i]);
+            tokenWanted[i] = activeOffers[i].tokenWanted();
+            amountWanted[i] = activeOffers[i].amountWanted();
             }
         }
     }
