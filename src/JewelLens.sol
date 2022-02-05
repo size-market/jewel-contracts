@@ -73,7 +73,6 @@ contract JewelLens {
             offerAddresses[i] = address(activeOffers[i]);
             tokenWanted[i] = activeOffers[i].tokenWanted();
             amountWanted[i] = activeOffers[i].amountWanted();
-            }
         }
     }
 }
