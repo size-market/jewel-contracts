@@ -20,7 +20,7 @@ contract LockedJewelOfferTest is DSTest {
     Vm constant VM = Vm(HEVM_ADDRESS);
 
     address public constant USDC = 0x985458E523dB3d53125813eD68c274899e9DfAb4;
-    IJewelToken JEWEL = IJewelToken(0x72Cb10C6bfA5624dD07Ef608027E366bd690048F);
+    IJewelToken JEWEL = IJewelToken(0xEa589E93Ff18b1a1F1e9BaC7EF3E86Ab62addc79);
 
     function setUp() public {
         factoryDeployer = new FactoryDeployer();
@@ -29,7 +29,8 @@ contract LockedJewelOfferTest is DSTest {
         factory = factoryDeployer.factory();
 
         // give us 100k locked JEWEL to work with
-        VM.store(address(JEWEL), keccak256(abi.encode(address(this), 15)), bytes32(uint256(100_000 * 1e18)));
+        VM.store(address(JEWEL), keccak256(abi.encode(address(this), 13)), bytes32(uint256(100_000 * 1e18)));
+        emit log_uint(JEWEL.totalBalanceOf(address(this)));
 
         // fund the offer user with 1m usdc
         VM.store(address(USDC), keccak256(abi.encode(address(trader), 0)), bytes32(uint256(1_000_000 * 1e6)));

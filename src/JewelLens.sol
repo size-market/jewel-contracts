@@ -11,7 +11,7 @@ contract JewelLens {
     address public constant UST = 0x224e64ec1BDce3870a6a6c777eDd450454068FEC;
     address public constant BUSD = 0xE176EBE47d621b984a73036B9DA5d834411ef734;
 
-    IJewelToken JEWEL = IJewelToken(0x72Cb10C6bfA5624dD07Ef608027E366bd690048F);
+    IJewelToken JEWEL = IJewelToken(0xEa589E93Ff18b1a1F1e9BaC7EF3E86Ab62addc79);
 
     function getVolume(IOfferFactory factory) public view returns (uint256 sum) {
         address[5] memory stables = [USDC, USDT, DAI, UST, BUSD];

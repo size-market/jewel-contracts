@@ -11,7 +11,7 @@ contract LockedJewelOffer {
     uint256 public immutable fee; // in bps
     bool public hasEnded = false;
 
-    IJewelToken JEWEL = IJewelToken(0x72Cb10C6bfA5624dD07Ef608027E366bd690048F);
+    IJewelToken JEWEL = IJewelToken(0xEa589E93Ff18b1a1F1e9BaC7EF3E86Ab62addc79);
 
     event OfferFilled(address buyer, uint256 jewelAmount, address token, uint256 tokenAmount);
     event OfferCanceled(address seller, uint256 jewelAmount);
