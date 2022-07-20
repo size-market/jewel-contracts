@@ -1,0 +1,251 @@
+[
+  {
+    "inputs": [],
+    "name": "BUSD",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "DAI",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "USDC",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "USDT",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "UST",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IOfferFactory",
+        "name": "factory",
+        "type": "address"
+      }
+    ],
+    "name": "getActiveOffersPruned",
+    "outputs": [
+      {
+        "internalType": "contract ILockedJewelOffer[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IOfferFactory",
+        "name": "factory",
+        "type": "address"
+      }
+    ],
+    "name": "getAllActiveOfferInfo",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "offerAddresses",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "jewelBalances",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tokenWanted",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "amountWanted",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IOfferFactory",
+        "name": "factory",
+        "type": "address"
+      }
+    ],
+    "name": "getAllActiveOfferPruneAndInfo",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "offerAddresses",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "jewelBalances",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tokenWanted",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "amountWanted",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IOfferFactory",
+        "name": "factory",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "start",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "end",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAllActiveOfferPruneAndInfoRanged",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "offerAddresses",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "jewelBalances",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tokenWanted",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "amountWanted",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "sellers",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ILockedJewelOffer",
+        "name": "offer",
+        "type": "address"
+      }
+    ],
+    "name": "getOfferInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "jewelBalance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenWanted",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountWanted",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IOfferFactory",
+        "name": "factory",
+        "type": "address"
+      }
+    ],
+    "name": "getVolume",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "sum",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

@@ -52,6 +52,67 @@ contract JewelLens {
         return pruned;
     }
 
+    function getAllActiveOfferPruneAndInfoRanged(IOfferFactory factory, uint start, uint end) external view 
+        returns (
+            address[] memory offerAddresses,
+            uint256[] memory jewelBalances,
+            address[] memory tokenWanted,
+            uint256[] memory amountWanted,
+            address[] memory sellers
+        )
+        {
+        ILockedJewelOffer[] memory activeOffers = factory.getActiveOffersByRange(start, end);
+        // determine size of memory array
+        uint count;
+        for (uint i; i < activeOffers.length; i++) {
+            if (address(activeOffers[i]) == address(0)) {
+                count = i;
+                break;
+            }
+        }
+        offerAddresses = new address[](count);
+        jewelBalances = new uint256[](count);
+        tokenWanted = new address[](count);
+        amountWanted = new uint256[](count);
+        sellers = new address[](count);
+        for (uint i; i < count; i++) {
+            jewelBalances[i] = JEWEL.totalBalanceOf(address(activeOffers[i]));
+            offerAddresses[i] = address(activeOffers[i]);
+            tokenWanted[i] = activeOffers[i].tokenWanted();
+            amountWanted[i] = activeOffers[i].amountWanted();
+            sellers[i] = activeOffers[i].seller();
+        }
+    }
+
+    function getAllActiveOfferPruneAndInfo(IOfferFactory factory) external view 
+        returns (
+            address[] memory offerAddresses,
+            uint256[] memory jewelBalances,
+            address[] memory tokenWanted,
+            uint256[] memory amountWanted
+        )
+        {
+        ILockedJewelOffer[] memory activeOffers = factory.getActiveOffers();
+        // determine size of memory array
+        uint count;
+        for (uint i; i < activeOffers.length; i++) {
+            if (address(activeOffers[i]) == address(0)) {
+                count = i;
+                break;
+            }
+        }
+        offerAddresses = new address[](count);
+        jewelBalances = new uint256[](count);
+        tokenWanted = new address[](count);
+        amountWanted = new uint256[](count);
+        for (uint i; i < count; i++) {
+            jewelBalances[i] = JEWEL.totalBalanceOf(address(activeOffers[i]));
+            offerAddresses[i] = address(activeOffers[i]);
+            tokenWanted[i] = activeOffers[i].tokenWanted();
+            amountWanted[i] = activeOffers[i].amountWanted();
+        }
+    }
+
     function getAllActiveOfferInfo(IOfferFactory factory)
         public
         view

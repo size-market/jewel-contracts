@@ -27,12 +27,16 @@ interface ILockedJewelOffer {
     function amountWanted() external view returns (uint256);
 
     function tokenWanted() external view returns (address);
+
+    function seller() external view returns (address);
 }
 
 interface IOfferFactory {
     function offers() external view returns (ILockedJewelOffer[] memory);
 
     function getActiveOffers() external view returns (ILockedJewelOffer[] memory);
+
+    function getActiveOffersByRange(uint256 start, uint256 end) external view returns (ILockedJewelOffer[] memory);
 }
 
 interface IOwnable {

@@ -66,4 +66,8 @@ contract OfferFactory is Ownable {
 
         return activeOffers;
     }
+
+    function getLen() public view returns (uint) {
+        return offers.length;
+    }
 }
